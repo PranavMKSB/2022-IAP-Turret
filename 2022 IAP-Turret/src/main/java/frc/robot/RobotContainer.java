@@ -7,7 +7,10 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.PhotonVision;
+import main.java.frc.robot.commands.SpinToTarget;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -21,12 +24,18 @@ public class RobotContainer {
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+  private final DriveTrain dt = new DriveTrain();
+  private final PhotonVision photon = new PhotonVision();
+  private final SpinToTarget m_SpinToTarget;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
+    m_SpinToTarget = new SpinToTarget(dt, photon);
     configureButtonBindings();
   }
+
+  
 
   /**
    * Use this method to define your button->command mappings. Buttons can be created by
@@ -43,6 +52,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_autoCommand;
+
+    return m_SpinToTarget;
   }
 }
